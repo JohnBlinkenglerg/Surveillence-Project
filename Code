@@ -1,23 +1,24 @@
 
+#importing python libraries
 from djitellopy import tello
 import KeyPressModule as kp
 import time
 import cv2
-#importing python libraries
 
+#This is tello connecting itself
 kp.init()
 tello = tello.Tello()
 tello.connect()
 print(tello.get_battery())
 global img
 tello.streamon()
-#This is tello connecting itself
 
+#controls the drone speed and movement
 def getKeyboardInput():
     lr, fb, ud, yv = 0, 0, 0, 0
     speed = 50
-#controls the drone speed and movement
 
+#this is the keybaord function
     if kp.getKey("LEFT"): lr = -speed
     elif kp.getKey("RIGHT"): lr = speed
 
@@ -43,7 +44,9 @@ def getKeyboardInput():
 
 
 while True:
+ #This is to give the live video the following dimensions
     vals = getKeyboardInput()
+    #setting the values
     tello.send_rc_control(vals[0], vals[1], vals[2], vals[3])
     #setting the values
     img = tello.get_frame_read().frame
